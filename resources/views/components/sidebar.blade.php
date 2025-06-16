@@ -79,7 +79,7 @@
 
     {{-- Footer --}}
     <div class="sidebar-footer mt-auto pt-3 border-top" style="border-color: var(--border-color);">
-        <p class="text-primary mb-2"> {{ auth()->user()->name }} </p>
+        <p class="text-primary mb-2"> {{ auth()->user()->name }}  <span class="text-black">As <span class="text-danger">{{ auth()->user()->role }}</span></span> </p>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-outline-danger w-100">Logout</button>

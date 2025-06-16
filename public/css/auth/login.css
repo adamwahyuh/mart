@@ -1,0 +1,26 @@
+@import url('../global.css');
+body, html {
+    height: 100%;
+}
+
+.bg-primary-softy {
+    background-color: var(--primary-color);
+    color: var(--text-white) !important;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(14, 14, 95, 0.25); 
+}
+
+.btn-primary-softy {
+    background-color: var(--btn-primary-bg);
+    border-color: var(--btn-primary-bg);
+    color: var(--text-white);
+}
+
+.btn-primary-softy:hover {
+    background-color: var(--btn-primary-hover);
+    border-color: var(--primary-color-dark);
+    color: var(--text-white);
+}
