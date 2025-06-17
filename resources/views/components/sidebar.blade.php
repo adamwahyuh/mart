@@ -45,6 +45,22 @@
             </a>
         </div>
     </div>
+    {{-- Vendors --}}
+    <div class="mb-2">
+        <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
+                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                style="color: var(--sidebar-text);">
+            <i class="bi bi-box-seam me-2"></i> Vendors
+        </button>
+        <div class="collapse" id="restocker-menu">
+            <a href="/products" class="nav-link ms-3 {{ request()->is('vendors') ? 'active' : '' }}">
+                <i class="bi bi-list-ul me-2"></i> Daftar Vendor
+            </a>
+            <a href="/products/create" class="nav-link ms-3 {{ request()->is('vendors/create') ? 'active' : '' }}">
+                <i class="bi bi-plus-square me-2"></i> Tambah Vendor
+            </a>
+        </div>
+    </div>
 
     {{-- OWNER --}}
     <div class="mb-2">
