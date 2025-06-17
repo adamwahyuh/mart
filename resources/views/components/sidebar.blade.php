@@ -53,10 +53,10 @@
             <i class="bi bi-box-seam me-2"></i> Vendors
         </button>
         <div class="collapse" id="restocker-menu">
-            <a href="/products" class="nav-link ms-3 {{ request()->is('vendors') ? 'active' : '' }}">
+            <a href="/vendors" class="nav-link ms-3 {{ request()->is('vendors') ? 'active' : '' }}">
                 <i class="bi bi-list-ul me-2"></i> Daftar Vendor
             </a>
-            <a href="/products/create" class="nav-link ms-3 {{ request()->is('vendors/create') ? 'active' : '' }}">
+            <a href="/vendors/create" class="nav-link ms-3 {{ request()->is('vendors/create') ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Tambah Vendor
             </a>
         </div>
