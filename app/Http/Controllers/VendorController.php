@@ -57,24 +57,40 @@ class VendorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Vendor $vendor)
     {
         //
+        return view('vendors.edit', [
+            'title' => 'Edit Vendor',
+            'vendor' => $vendor
+        ]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Vendor $vendor)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:vendors,name,' . $vendor->id,
+            'email' => 'required|email|unique:vendors,email,' . $vendor->id,
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string',
+        ]);
+
+        $vendor->update($validated);
+
+        return redirect()->route('vendors.index')->with('success', 'Vendor berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Vendor $vendor)
     {
-        //
+        $vendor->delete();
+        return redirect()->route('vendors.index')->with('success', 'Vendor berhasil dihapus.');
     }
+
 }
