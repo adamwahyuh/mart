@@ -2,20 +2,17 @@
 
 <x-layout>
     <div class="container my-5">
-        {{-- <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Produk</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Tambah Produk</li>
-            </ol>
-        </nav> --}}
+        <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                <h4 class="text-primary mb-0 fw-bold">{{ $title }}</h4>
+                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" title="Kembali">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+            </div>
 
-        <div class="card-form">
-            <h2 class="mb-4 text-primary fw-bold">Tambah Produk Baru</h2>
-            <form id="productForm" enctype="multipart/form-data" action="/products" method="POST">
+            <form id="productForm" enctype="multipart/form-data" action="{{ route('products.store') }}" method="POST">
                 @csrf
                 <div class="row g-4">
-
                     <!-- Nama Produk -->
                     <div class="col-md-6">
                         <label for="name" class="form-label">Nama Produk</label>
@@ -48,7 +45,7 @@
                         @enderror
                     </div>
 
-                    <!-- Modal -->
+                    <!-- Harga Modal -->
                     <div class="col-md-6">
                         <label for="modal" class="form-label">Harga Modal</label>
                         <div class="input-group">
@@ -75,6 +72,7 @@
                             @enderror
                         </div>
                     </div>
+
                     <!-- Deskripsi -->
                     <div class="col-md-6">
                         <label for="description" class="form-label">Deskripsi</label>
@@ -86,7 +84,7 @@
                         @enderror
                     </div>
 
-                    <!-- Foto -->
+                    <!-- Foto Produk -->
                     <div class="col-md-6">
                         <label for="photo" class="form-label">Foto Produk</label>
                         <input class="form-control @error('photo') is-invalid @enderror" 
@@ -98,15 +96,17 @@
                         <div id="img-preview" class="mt-3"></div>
                     </div>
 
-                    <!-- Submit -->
+                    <!-- Tombol Submit -->
                     <div class="col-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success px-4 py-2 shadow-sm">Simpan Produk</button>
+                        <button type="submit" class="btn btn-success btn-sm px-4 py-2 d-flex align-items-center gap-2 shadow-sm">
+                            <i class="bi bi-check-circle"></i> Simpan Produk
+                        </button>
                     </div>
-
                 </div>
             </form>
         </div>
     </div>
+
     <script>
         // Preview gambar
         const photoInput = document.getElementById('photo');

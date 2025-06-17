@@ -81,18 +81,65 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+    /**
+ * Show the form for editing the specified resource.
+ */
+public function edit(string $id)
+{
+    $product = Product::with('price')->findOrFail($id);
+    $categories = Category::all();
+
+    return view('products.edit', [
+        'title' => 'Edit Produk',
+        'product' => $product,
+        'categories' => $categories,
+    ]);
+}
+
+/**
+ * Update the specified resource in storage.
+ */
+public function update(Request $request, string $id)
+{
+    $product = Product::with('price')->findOrFail($id);
+
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string|max:1000',
+        'category_id' => 'required|exists:categories,id',
+        'photo' => 'nullable|image|mimes:jpeg,png,jpg',
+        'modal' => 'required|numeric|min:0',
+        'sell_price' => 'required|numeric|min:0|gte:modal',
+    ], [
+        'sell_price.gte' => 'Harga jual harus lebih besar dari atau sama dengan harga modal.'
+    ]);
+
+    if ($request->hasFile('photo')) {
+        // Hapus foto lama jika ada
+        if ($product->photo && Storage::disk('public')->exists($product->photo)) {
+            Storage::disk('public')->delete($product->photo);
+        }
+        $validatedData['photo'] = $request->file('photo')->store('uploads', 'public');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+    // Update data produk (kecuali harga)
+    $product->update([
+        'name' => $validatedData['name'],
+        'description' => $validatedData['description'],
+        'category_id' => $validatedData['category_id'],
+        'photo' => $validatedData['photo'] ?? $product->photo,
+    ]);
+
+    // Update harga
+    $product->price->update([
+        'modal' => $validatedData['modal'],
+        'sell_price' => $validatedData['sell_price'],
+        'profit' => $validatedData['sell_price'] - $validatedData['modal'],
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui');
+}
+
 
     /**
      * Remove the specified resource from storage.

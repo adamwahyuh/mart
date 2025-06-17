@@ -36,14 +36,17 @@
     box-shadow: var(--box-shadow-dark);
     opacity: 0.9;
 }
-.btn-back     { background-color: var(--primary-color);   color: var(--text-white); }
+/* .btn-back     { background-color: var(--primary-color);   color: var(--text-white); }
 .btn-edit     { background-color: var(--accent-purple);   color: var(--text-white); }
 .btn-delete   { background-color: var(--danger-color);    color: var(--text-white); }
 .btn-back:hover   { background-color: var(--primary-color-light); }
 .btn-edit:hover   { background-color: var(--purple-700); }
-.btn-delete:hover { background-color: var(--red-700); }
+.btn-delete:hover { background-color: var(--red-700); } */
 
-.action-buttons { display: flex; gap: 0.5rem; }
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
 
 .detail-group {
     margin-bottom: 1rem;

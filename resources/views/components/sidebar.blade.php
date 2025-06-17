@@ -31,7 +31,7 @@
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
                 data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
-            <i class="bi bi-box-seam me-2"></i> Restocker
+            <i class="bi bi-box-seam me-2"></i> Products
         </button>
         <div class="collapse" id="restocker-menu">
             <a href="/products" class="nav-link ms-3 {{ request()->is('products') ? 'active' : '' }}">
@@ -39,6 +39,9 @@
             </a>
             <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Menu Baru
+            </a>
+            <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
+                <i class="bi bi-plus-square me-2"></i> Isi Stock
             </a>
         </div>
     </div>
