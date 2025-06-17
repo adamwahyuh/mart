@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 
 class VendorController extends Controller
@@ -12,7 +13,10 @@ class VendorController extends Controller
     public function index()
     {
         //
-        return view('vendors.index');
+        return view('vendors.index', [
+            'title' => 'Vendors',
+            'vendors' => Vendor::all(),
+        ]);
     }
 
     /**
