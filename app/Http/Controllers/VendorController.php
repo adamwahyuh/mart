@@ -24,15 +24,26 @@ class VendorController extends Controller
      */
     public function create()
     {
-        //
+        return view('vendors.create', [
+            'title' => 'Tambah Vendor',
+        ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan vendor baru.
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:vendors,name',
+            'email' => 'required|email|unique:vendors,email',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:1000',
+        ]);
+
+        Vendor::create($validated);
+
+        return redirect()->route('vendors.index')->with('success', 'Vendor berhasil ditambahkan.');
     }
 
     /**

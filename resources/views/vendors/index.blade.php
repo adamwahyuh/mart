@@ -3,6 +3,13 @@
 
 <x-layout>
     <div class="container-fluid mt-4">
+        @if (session('success'))
+            <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="text-primary mb-0">{{ $title }}</h4>
@@ -60,4 +67,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('success-alert');
+            if (alert) {
+                alert.classList.remove('show');
+                alert.classList.add('fade');
+                
+                setTimeout(() => {
+                    alert.remove();
+                }, 300); // waktu untuk menghapus setelah transisi
+            }
+        }, 1000); // 1000ms = 1 detik
+    </script>
+
 </x-layout>
+
