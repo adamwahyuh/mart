@@ -45,14 +45,15 @@
             </a>
         </div>
     </div>
+
     {{-- Vendors --}}
     <div class="mb-2">
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
-                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                data-bs-toggle="collapse" data-bs-target="#vendors-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
-            <i class="bi bi-box-seam me-2"></i> Vendors
+            <i class="bi bi-truck me-2"></i> Vendors
         </button>
-        <div class="collapse" id="restocker-menu">
+        <div class="collapse" id="vendors-menu">
             <a href="/vendors" class="nav-link ms-3 {{ request()->is('vendors') ? 'active' : '' }}">
                 <i class="bi bi-list-ul me-2"></i> Daftar Vendor
             </a>
@@ -97,8 +98,10 @@
     </div>
 
     {{-- Footer --}}
-    <div class="sidebar-footer mt-auto pt-3 border-top" style="border-color: var(--border-color);">
-        <p class="text-primary mb-2"> {{ auth()->user()->name }}  <span class="text-black">As <span class="text-danger">{{ auth()->user()->role }}</span></span> </p>
+    <div class="sidebar-footer mt-3 pt-3 border-top" style="border-color: var(--border-color);">
+        <p class="text-primary mb-2"> {{ auth()->user()->name }}  
+            <span class="text-black">As <span class="text-danger">{{ auth()->user()->role }}</span></span>
+        </p>
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn btn-outline-danger w-100">Logout</button>
