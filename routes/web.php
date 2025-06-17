@@ -1,9 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DosController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ProductController;
+
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -23,4 +25,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-
+Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
+Route::delete('/dos', [DosController::class, 'destroyAll'])->name('dos.destroyAll');
