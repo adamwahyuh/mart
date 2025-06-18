@@ -3,9 +3,14 @@
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="text-primary mb-0">Manajemen Kategori</h4>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                    <i class="bi bi-plus-circle me-1"></i> Tambah Kategori
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-danger" onclick="window.location.href='/products/create'">
+                        <i class="bi bi-plus-circle me-1"></i> Tambah Barang
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                        <i class="bi bi-plus-circle me-1"></i> Tambah Kategori
+                    </button>
+                </div>
             </div>
 
             <div class="table-responsive">
