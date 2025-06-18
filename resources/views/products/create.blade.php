@@ -1,6 +1,5 @@
-<title>{{ $title }}</title>
 
-<x-layout>
+<x-layout :title="$title">
     <div class="container my-5">
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -107,27 +106,5 @@
         </div>
     </div>
 
-    <script>
-        // Preview gambar
-        const photoInput = document.getElementById('photo');
-        const imgPreview = document.getElementById('img-preview');
-
-        photoInput.addEventListener('change', function () {
-            imgPreview.innerHTML = '';
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = 'Preview';
-                    img.classList.add('img-thumbnail');
-                    img.style.maxWidth = '200px';
-                    img.style.height = 'auto';
-                    imgPreview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <script src="{{ asset('js/imgPreview.js') }}"></script>
 </x-layout>

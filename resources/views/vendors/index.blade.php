@@ -68,19 +68,7 @@
         </div>
     </div>
 
-    <script>
-        setTimeout(() => {
-            const alert = document.getElementById('success-alert');
-            if (alert) {
-                alert.classList.remove('show');
-                alert.classList.add('fade');
-                
-                setTimeout(() => {
-                    alert.remove();
-                }, 300); // waktu untuk menghapus setelah transisi
-            }
-        }, 1000); // 1000ms = 1 detik
-    </script>
+    <script src="{{ asset('js/timerTimeout.js') }}"></script>
 
 </x-layout>
 

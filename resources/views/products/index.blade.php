@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="{{ asset('css/products/index.css') }}">
-<title>{{ $title }}</title>
 
-<x-layout>
+<x-layout :title="$title">
     <div class="container-fluid mt-4">
+        {{-- Cum --}}
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="text-primary mb-0">{{ $title }}</h4>
@@ -10,6 +10,15 @@
                     <i class="bi bi-plus-circle me-1"></i> Tambah Produk
                 </a>
             </div>
+
+            {{-- Notif Success --}}
+            @if (session('success'))
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle text-nowrap">
@@ -35,7 +44,7 @@
                             <td>{{ $product->category->name ?? '-' }}</td>
                             <td>
                                 <img src="{{ $product->photo ? asset('storage/' . $product->photo) : asset('img/default.png') }}"
-                                     alt="{{ $product->name }}" class="product-img">
+                                        alt="{{ $product->name }}" class="product-img">
                             </td>
                             <td>
                                 <div class="desc-text" title="{{ $product->description }}">
@@ -75,4 +84,6 @@
             </div>
         </div>
     </div>
+    
+    <script src="{{ asset('js/timerTimeout.js') }}"></script>
 </x-layout>

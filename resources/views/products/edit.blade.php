@@ -1,6 +1,5 @@
-<title>Edit Produk</title>
 
-<x-layout>
+<x-layout :title="$title .': '. $product->name">
     <div class="container my-5">
 
         {{-- Breadcrumb --}}
@@ -9,7 +8,7 @@
                 <li class="breadcrumb-item">
                     <a href="{{ route('products.index') }}">Produk</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Produk</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit : {{ $product->name }}</li>
             </ol>
         </nav>
 
@@ -127,26 +126,5 @@
         </div>
     </div>
 
-    <script>
-        const photoInput = document.getElementById('photo');
-        const imgPreview = document.getElementById('img-preview');
-
-        photoInput.addEventListener('change', function () {
-            imgPreview.innerHTML = '';
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.alt = 'Preview';
-                    img.classList.add('img-thumbnail');
-                    img.style.maxWidth = '200px';
-                    img.style.height = 'auto';
-                    imgPreview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <script src="{{ asset('js/imgPreview.js') }}"></script>
 </x-layout>

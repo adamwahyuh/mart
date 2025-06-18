@@ -1,46 +1,52 @@
-
-
 <x-layout>
-    <div class="container py-4">
-        <h1 class="mb-4">Log IP Masuk ke <code>/dos</code></h1>
-
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+    <div class="container mt-4">
+        <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-primary mb-0">Log IP </h4>
+                <div class="d-flex align-items-center gap-3">
+                    <form action="{{ route('dos.destroyAll') }}" method="POST" onsubmit="return confirm('Hapus semua log?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash3-fill me-1"></i> Hapus Semua Log
+                        </button>
+                    </form>
+                    <span class="text-muted">Total Log: <strong>{{ $logs->count() }}</strong></span>
+                </div>
             </div>
-        @endif
 
-        <form action="{{ route('dos.destroyAll') }}" method="POST" onsubmit="return confirm('Yakin mau hapus semua log?')" class="mb-3">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash3-fill me-1"></i> Hapus Semua Log
-            </button>
-        </form>
+            @if (session('success'))
+                <div class="alert alert-success" id="success-alert">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">IP Address</th>
-                        <th scope="col">Waktu Akses</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($logs as $log)
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-nowrap">
+                    <thead class="table-light">
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $log->ip_address }}</td>
-                            <td>{{ $log->accessed_at }}</td>
+                            <th>#</th>
+                            <th>IP Address</th>
+                            <th>Waktu Akses</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center text-muted">Belum ada log.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @forelse ($logs as $log)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $log->ip_address }}</td>
+                                <td>{{ $log->accessed_at }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">Belum ada log.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
+    <script src="{{ asset('js/timerTimeout.js') }}"></script>
 </x-layout>

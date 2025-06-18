@@ -43,6 +43,9 @@
             <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Isi Stock
             </a>
+            <a href="/categories" class="nav-link ms-3 {{ request()->is('categories') ? 'active' : '' }}">
+                <i class="bi bi-plus-square me-2"></i> Buat Categori
+            </a>
         </div>
     </div>
 
