@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BatchesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosController;
 use App\Http\Controllers\LoginController;
@@ -30,7 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    
+    Route::get('/batches/select-product', [BatchesController::class, 'selectProduct'])->name('batches.select-product');
+    Route::resource('/batches', BatchesController::class);
+    
+    // Test dos
+    Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
+    Route::delete('/dos', [DosController::class, 'destroyAll'])->name('dos.destroyAll');
 });
-
-Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
-Route::delete('/dos', [DosController::class, 'destroyAll'])->name('dos.destroyAll');

@@ -26,25 +26,38 @@
         </div>
     </div>
 
-    {{-- RESTOCKER --}}
+    {{-- Products --}}
     <div class="mb-2">
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
-                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                data-bs-toggle="collapse" data-bs-target="#products-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
             <i class="bi bi-box-seam me-2"></i> Products
         </button>
-        <div class="collapse" id="restocker-menu">
+        <div class="collapse" id="products-menu">
             <a href="/products" class="nav-link ms-3 {{ request()->is('products') ? 'active' : '' }}">
                 <i class="bi bi-list-ul me-2"></i> Daftar Menu
             </a>
             <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Menu Baru
             </a>
-            <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
-                <i class="bi bi-plus-square me-2"></i> Isi Stock
-            </a>
             <a href="/categories" class="nav-link ms-3 {{ request()->is('categories') ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Buat Categori
+            </a>
+        </div>
+    </div>
+    {{-- Stocker --}}
+    <div class="mb-2">
+        <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
+                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                style="color: var(--sidebar-text);">
+            <i class="bi bi-box-seam me-2"></i> Batches
+        </button>
+        <div class="collapse" id="restocker-menu">
+            <a href="/products" class="nav-link ms-3 {{ request()->is('products') ? 'active' : '' }}">
+                <i class="bi bi-list-ul me-2"></i> Daftar Batches
+            </a>
+            <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
+                <i class="bi bi-plus-square me-2"></i> Isi Stock
             </a>
         </div>
     </div>
