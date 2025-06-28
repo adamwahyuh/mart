@@ -67,87 +67,137 @@ class BatchesController extends Controller
             'vendor_id' => 'nullable|integer',
             'type' => 'required|in:in,out',
             'quantity' => 'required|integer|min:1',
-            'production_date' => 'nullable|date|before_or_equal:today',
-            'expired' => 'nullable|date|after_or_equal:production_date',
+            'production_date' => 'required|date|before_or_equal:today',
+            'expired' => 'required|date|after_or_equal:production_date',
             'note' => 'nullable|string',
             'product_id' => 'required|exists:products,id'
         ]);
 
-        // Jika vendor_id = 0, set ke null
         $vendorId = $validated['vendor_id'] == 0 ? null : $validated['vendor_id'];
 
-        // Buat batch baru 
-        $batch = Batch::create([
-            'product_id' => $validated['product_id'],
-            'batch_code' => '', // placeholder sementara
-            'stock' => $validated['quantity'],
-            'prdouction_date' => $validated['production_date'] ?? null,
-            'expired' => $validated['expired'] ?? null,
-        ]);
+        // cari batch yang existing (berdasarkan product_id + production_date + expired)
+        $batch = Batch::where('product_id', $validated['product_id'])
+            ->whereDate('prdouction_date', $validated['production_date'] ?? null)
+            ->whereDate('expired', $validated['expired'] ?? null)
+            ->first();
 
-        // Buat movement
+        if ($batch) {
+            // Batch sudah ada → update stock
+            if ($validated['type'] == 'in') {
+                $batch->stock += $validated['quantity'];
+            } else {
+                $batch->stock -= $validated['quantity'];
+                if ($batch->stock < 0) {
+                    return back()->withErrors(['quantity' => 'Stock tidak mencukupi untuk movement OUT.']);
+                }
+            }
+            $batch->save();
+
+        } else {
+            // Batch belum ada → create baru
+            $batch = Batch::create([
+                'product_id' => $validated['product_id'],
+                'batch_code' => '', // sementara kosong, diisi di bawah
+                'stock' => $validated['quantity'],
+                'prdouction_date' => $validated['production_date'] ?? null,
+                'expired' => $validated['expired'] ?? null,
+            ]);
+        }
+
+        // create movement record
         $movement = Movement::create([
             'vendor_id' => $vendorId,
             'batch_id' => $batch->id,
             'type' => $validated['type'],
             'quantity' => $validated['quantity'],
             'note' => $validated['note'] ?? null,
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'operator_name' => Auth::user()->name,
         ]);
 
-        // Ambil product
-        $product = Product::findOrFail($validated['product_id']);
+        // generate batch_code (kalau masih kosong saja)
+        if (empty($batch->batch_code)) {
+            $product = Product::findOrFail($validated['product_id']);
 
-        // Format bulan-tahun
-        $monthYear = now()->format('mY');
-        if (!empty($validated['production_date'])) {
-            $monthYear = Carbon::parse($validated['production_date'])->format('mY');
+            $monthYear = now()->format('mY');
+            if (!empty($validated['production_date'])) {
+                $monthYear = \Carbon\Carbon::parse($validated['production_date'])->format('mY');
+            }
+
+            $batchCode = sprintf(
+                '%s-%s-%s-%d',
+                Str::studly(str_replace(' ', '', $product->name)),
+                strtoupper($validated['type']),
+                $monthYear,
+                $batch->id
+            );
+
+            $batch->update(['batch_code' => $batchCode]);
         }
-
-        // Generate batch code
-        $batchCode = sprintf(
-            '%s-%s-%s-%d-%d',
-            Str::studly(str_replace(' ', '', $product->name)),
-            strtoupper($validated['type']),
-            $monthYear,
-            $batch->id,
-            $movement->id
-        );
-
-        // Update batch dengan batch_code
-        $batch->update([
-            'batch_code' => $batchCode,
-        ]);
 
         return redirect()
             ->route('batches.index')
-            ->with('success', 'Restock berhasil disimpan dengan Batch Code: ' . $batchCode);
+            ->with('success', 'Movement berhasil disimpan ke Batch: ' . $batch->batch_code);
     }
 
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         //
+        $batch = Batch::with(['product', 'movements.vendor', 'movements.user'])
+            ->findOrFail($id);
+
+        return view('batches.show', compact('batch'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Batch $batch)
     {
         //
+        return view('batches.edit', [
+            'title' => 'Edit Batch',
+            'batch' => $batch,
+            'vendors' => Vendor::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Batch $batch)
     {
         //
+        $request->validate([
+            // 'quantity' => 'required|integer|min:0',
+            'prdouction_date' => 'required|date|before_or_equal:today',
+            'expired' => 'required|date|after_or_equal:prdouction_date',
+            // 'note' => 'nullable|string',
+        ]);
+
+        // ambil movement pertama yang terkait batch
+        // $movement = $batch->movements()->first();
+
+        // if ($movement) {
+        //     $movement->update([
+        //         'quantity' => $request->quantity,
+        //         'note' => $request->note,
+        //     ]);
+        // }
+
+        // update batch stock juga biar sinkron
+        $batch->update([
+            'prdouction_date' => $request->prdouction_date,
+            'expired' => $request->expired,
+            // 'stock' => $request->quantity,
+        ]);
+
+        return redirect()->route('batches.index')->with('success', 'Batch berhasil diupdate!');
+
     }
 
     /**

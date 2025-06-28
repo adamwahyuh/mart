@@ -61,7 +61,7 @@
                     <div class="col-md-6">
                         <label for="production_date" class="form-label">Production Date</label>
                         <input type="date" class="form-control @error('production_date') is-invalid @enderror"
-                            id="production_date" name="production_date" value="{{ old('production_date') }} " max="{{ now()->format('Y-m-d') }}">
+                            id="production_date" name="production_date" value="{{ old('production_date') }}" max="{{ now()->format('Y-m-d') }}">
                         @error('production_date')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

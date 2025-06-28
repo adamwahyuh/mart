@@ -43,10 +43,10 @@
                             <th>No</th>
                             <th>Batch Code</th>
                             <th>Nama Produk</th>
-                            <th>Stock</th>
+                            <th>Qty</th>
                             <th>Production Date</th>
                             <th>Expired</th>
-                            <th>Movement Type</th>
+                            <th>Vendor</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -60,16 +60,11 @@
                                 <td>{{ $batch->prdouction_date ? \Carbon\Carbon::parse($batch->prdouction_date)->format('d-m-Y') : '-' }}</td>
                                 <td>{{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }}</td>
                                 <td>
-                                    @php
-                                        $movementType = $batch->movements->first()->type ?? '-';
-                                    @endphp
-                                    @if($movementType == 'in')
-                                        <span class="badge bg-success">IN</span>
-                                    @elseif($movementType == 'out')
-                                        <span class="badge bg-danger">OUT</span>
-                                    @else
+                                    @forelse ($batch->movements as $movement)
+                                        {{ $movement->vendor->name ?? '-' }}<br>
+                                    @empty
                                         <span class="text-muted">-</span>
-                                    @endif
+                                    @endforelse
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
