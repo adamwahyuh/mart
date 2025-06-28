@@ -53,10 +53,10 @@
             <i class="bi bi-box-seam me-2"></i> Batches
         </button>
         <div class="collapse" id="restocker-menu">
-            <a href="/products" class="nav-link ms-3 {{ request()->is('products') ? 'active' : '' }}">
+            <a href="/batches" class="nav-link ms-3 {{ request()->is('batches') ? 'active' : '' }}">
                 <i class="bi bi-list-ul me-2"></i> Daftar Batches
             </a>
-            <a href="/products/create" class="nav-link ms-3 {{ request()->is('products/create') ? 'active' : '' }}">
+            <a href="/batches/create" class="nav-link ms-3 {{ request()->is('batches/create') || request()->is('batches/select-product')  ? 'active' : '' }}">
                 <i class="bi bi-plus-square me-2"></i> Isi Stock
             </a>
         </div>

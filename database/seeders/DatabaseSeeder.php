@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
+use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -60,6 +61,14 @@ class DatabaseSeeder extends Seeder
         ]);
         Category::create([
             'name' =>'Roti',
+        ]);
+
+
+        Vendor::create([
+            'name' =>'Pt sigma Jaya',
+            'email'=> 'Sigma@jaya.co.id',
+            'phone' => '12930128',
+            'address' => 'azz',
         ]);
     }
 }

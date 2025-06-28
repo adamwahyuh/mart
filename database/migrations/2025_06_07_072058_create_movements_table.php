@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->onDelete('cascade');
             $table->foreignId('batch_id')->constrained('batches')->onDelete('cascade');
             $table->enum('type', ['in', 'out'])->default('in'); 
             $table->integer('quantity')->default(0); 
