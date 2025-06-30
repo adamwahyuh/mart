@@ -57,20 +57,20 @@
                 <i class="bi bi-list-ul me-2"></i> Daftar Batches
             </a>
             <a href="/batches/create" class="nav-link ms-3 {{ request()->is('batches/create') || request()->is('batches/select-product')  ? 'active' : '' }}">
-                <i class="bi bi-plus-square me-2"></i> Isi Stock
+                <i class="bi bi-plus-square me-2"></i> Buat Batch
             </a>
         </div>
     </div>
-    {{-- Stocker --}}
+    {{-- Movements --}}
     <div class="mb-2">
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
-                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                data-bs-toggle="collapse" data-bs-target="#movements-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
             <i class="bi bi-box-seam me-2"></i> Movements
         </button>
-        <div class="collapse" id="restocker-menu">
-            <a href="/batches" class="nav-link ms-3 {{ request()->is('batches') ? 'active' : '' }}">
-                <i class="bi bi-list-ul me-2"></i> Isi/Ambil Products
+        <div class="collapse" id="movements-menu">
+            <a href="/movements/select-batch" class="nav-link ms-3 {{ request()->is('movements/select-batch') ? 'active' : '' }}">
+                <i class="bi bi-plus-square me-2"></i> Isi/Ambil Products
             </a>
         </div>
     </div>

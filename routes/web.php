@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\BatchesController;
+use App\Models\Movement;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\BatchesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MovementController;
+use App\Http\Controllers\MovementsController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -35,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/batches/select-product', [BatchesController::class, 'selectProduct'])->name('batches.select-product');
     Route::resource('/batches', BatchesController::class);
     
-    Route::resource('/movements', MovementController::class);
-
+    Route::get('/movements/select-batch', [MovementsController::class, 'selectBatch'])->name('movements.select-batch');
+    Route::resource('/movements', MovementsController::class);
 
     // Test dos
     Route::get('/dos', [DosController::class, 'index'])->name('dos.index');

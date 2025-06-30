@@ -127,9 +127,9 @@ class BatchesController extends Controller
             }
 
             $batchCode = sprintf(
-                '%s-%s-%s-%d-%d',
+                '%s-%s-%d-%d',
                 Str::studly(str_replace(' ', '', $product->name)),
-                strtoupper($validated['type']),
+                // strtoupper($validated['type']),
                 $monthYear,
                 $batch->id,
                 $movement->id

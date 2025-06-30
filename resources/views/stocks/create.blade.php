@@ -2,14 +2,20 @@
     <div class="container my-5">
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h4 class="text-primary mb-0 fw-bold">Restock Produk: {{ $product->name }}</h4>
-                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" title="Kembali">
+                <h4 class="text-primary mb-0 fw-bold">
+                    Restock Produk: {{ $product->name }} <br>
+                    <small class="text-muted">Batch: {{ $batch->batch_code }}</small>
+                    <br>
+                    <small>Stock: {{ $batch->stock }}</small>
+                </h4>
+                <a href="{{ route('movements.select-batch') }}" class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" title="Kembali">
                     <i class="bi bi-arrow-left"></i>
                 </a>
             </div>
 
-            <form action="{{ route('batches.store') }}" method="POST">
+            <form action="{{ route('movements.store') }}" method="POST">
                 @csrf
+                <input type="hidden" name="batch_id" value="{{ $batch->id }}">
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                 <div class="row g-4">
@@ -34,10 +40,10 @@
                     <!-- Type -->
                     <div class="col-md-6">
                         <label for="type" class="form-label">Type</label>
-                        <select class="form-select @error('type') is-invalid @enderror" name="type" id="type" required>
-                            <option value="" disabled {{ old('type') ? '' : 'selected' }}>Pilih tipe</option>
-                            <option value="in" {{ old('type') == 'in' ? 'selected' : '' }}>IN</option>
-                            <option value="out" {{ old('type') == 'out' ? 'selected' : '' }}>OUT</option>
+                        <select name="type" id="type" class="form-select @error('type') is-invalid @enderror" required>
+                            <option value="" disabled {{ old('type') ? '' : 'selected' }}>Pilih Type</option>
+                            <option value="in" {{ old('type') == 'in' ? 'selected' : '' }}>In</option>
+                            <option value="out" {{ old('type') == 'out' ? 'selected' : '' }}>Out</option>
                         </select>
                         @error('type')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -50,31 +56,11 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-box-seam"></i></span>
                             <input type="number" class="form-control @error('quantity') is-invalid @enderror"
-                                id="quantity" name="quantity" placeholder="Contoh: 50" value="{{ old('quantity') }}" required>
+                                id="quantity" name="quantity" placeholder="Contoh: 50" value="{{ old('quantity') }}" required min="1">
                             @error('quantity')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
-
-                    <!-- Production Date -->
-                    <div class="col-md-6">
-                        <label for="production_date" class="form-label">Production Date</label>
-                        <input type="date" class="form-control @error('production_date') is-invalid @enderror"
-                            id="production_date" name="production_date" value="{{ old('production_date') }}" max="{{ now()->format('Y-m-d') }}">
-                        @error('production_date')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- Expired -->
-                    <div class="col-md-6">
-                        <label for="expired" class="form-label">Expired Date</label>
-                        <input type="date" class="form-control @error('expired') is-invalid @enderror"
-                            id="expired" name="expired" value="{{ old('expired') }}" min="{{ now()->format('Y-m-d') }}">
-                        @error('expired')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
                     </div>
 
                     <!-- Note -->
