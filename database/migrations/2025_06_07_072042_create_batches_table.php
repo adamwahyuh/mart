@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->string('batch_code')->unique();
             $table->integer('stock')->default(0);
-            $table->date('prdouction_date')->nullable();
+            $table->date('production_date')->nullable();
             $table->date('expired')->nullable();
             $table->timestamps();
         });

@@ -2,7 +2,7 @@
     <div class="container my-5">
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h4 class="text-primary mb-0 fw-bold">Buat Batch Produk: {{ $product->name }}</h4>
+                <h4 class="text-primary mb-0 fw-bold">Restock Produk: {{ $product->name }}</h4>
                 <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" title="Kembali">
                     <i class="bi bi-arrow-left"></i>
                 </a>
@@ -34,11 +34,14 @@
                     <!-- Type -->
                     <div class="col-md-6">
                         <label for="type" class="form-label">Type</label>
-                        <input type="text" class="form-control @error('type') is-invalid @enderror"
-                                id="type" name="type" placeholder="In" value="in" required readonly>
-                            @error('type')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <select class="form-select @error('type') is-invalid @enderror" name="type" id="type" required>
+                            <option value="" disabled {{ old('type') ? '' : 'selected' }}>Pilih tipe</option>
+                            <option value="in" {{ old('type') == 'in' ? 'selected' : '' }}>IN</option>
+                            <option value="out" {{ old('type') == 'out' ? 'selected' : '' }}>OUT</option>
+                        </select>
+                        @error('type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <!-- Quantity -->

@@ -57,7 +57,7 @@
                                 <td>{{ $batch->batch_code }}</td>
                                 <td>{{ $batch->product->name ?? '-' }}</td>
                                 <td>{{ $batch->stock }}</td>
-                                <td>{{ $batch->prdouction_date ? \Carbon\Carbon::parse($batch->prdouction_date)->format('d-m-Y') : '-' }}</td>
+                                <td>{{ $batch->production_date ? \Carbon\Carbon::parse($batch->production_date)->format('d-m-Y') : '-' }}</td>
                                 <td>{{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }}</td>
                                 <td>
                                     @forelse ($batch->movements as $movement)

@@ -61,6 +61,19 @@
             </a>
         </div>
     </div>
+    {{-- Stocker --}}
+    <div class="mb-2">
+        <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
+                data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
+                style="color: var(--sidebar-text);">
+            <i class="bi bi-box-seam me-2"></i> Movements
+        </button>
+        <div class="collapse" id="restocker-menu">
+            <a href="/batches" class="nav-link ms-3 {{ request()->is('batches') ? 'active' : '' }}">
+                <i class="bi bi-list-ul me-2"></i> Isi/Ambil Products
+            </a>
+        </div>
+    </div>
 
     {{-- Vendors --}}
     <div class="mb-2">

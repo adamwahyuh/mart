@@ -74,15 +74,17 @@ class BatchesController extends Controller
         ]);
 
         $vendorId = $validated['vendor_id'] == 0 ? null : $validated['vendor_id'];
-
+        if ($validated['type'] != 'in'){
+            return back()->withErrors(['type' => 'Kamu tidak bisa Move OUT!']);
+        }
         // cari batch yang existing (berdasarkan product_id + production_date + expired)
         $batch = Batch::where('product_id', $validated['product_id'])
-            ->whereDate('prdouction_date', $validated['production_date'] ?? null)
+            ->whereDate('production_date', $validated['production_date'] ?? null)
             ->whereDate('expired', $validated['expired'] ?? null)
             ->first();
 
         if ($batch) {
-            // Batch sudah ada → update stock
+            // Batch sudah ada -> update stock
             if ($validated['type'] == 'in') {
                 $batch->stock += $validated['quantity'];
             } else {
@@ -99,7 +101,7 @@ class BatchesController extends Controller
                 'product_id' => $validated['product_id'],
                 'batch_code' => '', // sementara kosong, diisi di bawah
                 'stock' => $validated['quantity'],
-                'prdouction_date' => $validated['production_date'] ?? null,
+                'production_date' => $validated['production_date'] ?? null,
                 'expired' => $validated['expired'] ?? null,
             ]);
         }
@@ -125,11 +127,12 @@ class BatchesController extends Controller
             }
 
             $batchCode = sprintf(
-                '%s-%s-%s-%d',
+                '%s-%s-%s-%d-%d',
                 Str::studly(str_replace(' ', '', $product->name)),
                 strtoupper($validated['type']),
                 $monthYear,
-                $batch->id
+                $batch->id,
+                $movement->id
             );
 
             $batch->update(['batch_code' => $batchCode]);
@@ -174,8 +177,8 @@ class BatchesController extends Controller
         //
         $request->validate([
             // 'quantity' => 'required|integer|min:0',
-            'prdouction_date' => 'required|date|before_or_equal:today',
-            'expired' => 'required|date|after_or_equal:prdouction_date',
+            'production_date' => 'required|date|before_or_equal:today',
+            'expired' => 'required|date|after_or_equal:production_date',
             // 'note' => 'nullable|string',
         ]);
 
@@ -191,7 +194,7 @@ class BatchesController extends Controller
 
         // update batch stock juga biar sinkron
         $batch->update([
-            'prdouction_date' => $request->prdouction_date,
+            'production_date' => $request->production_date,
             'expired' => $request->expired,
             // 'stock' => $request->quantity,
         ]);

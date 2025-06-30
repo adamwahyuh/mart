@@ -30,7 +30,7 @@
                     <div class="mb-2"><strong>Produk:</strong> {{ $batch->product->name ?? '-' }}</div>
                     <div class="mb-2"><strong>Stock Saat Ini:</strong> {{ $batch->stock }}</div>
                     <div class="mb-2"><strong>Production Date:</strong> 
-                        {{ $batch->prdouction_date ? \Carbon\Carbon::parse($batch->prdouction_date)->format('d-m-Y') : '-' }}
+                        {{ $batch->production_date ? \Carbon\Carbon::parse($batch->production_date)->format('d-m-Y') : '-' }}
                     </div>
                     <div class="mb-2"><strong>Expired:</strong> 
                         {{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }}

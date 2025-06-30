@@ -7,7 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\MovementController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -35,6 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/batches/select-product', [BatchesController::class, 'selectProduct'])->name('batches.select-product');
     Route::resource('/batches', BatchesController::class);
     
+    Route::resource('/movements', MovementController::class);
+
+
     // Test dos
     Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
     Route::delete('/dos', [DosController::class, 'destroyAll'])->name('dos.destroyAll');
