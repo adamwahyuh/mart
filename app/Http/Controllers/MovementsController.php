@@ -18,7 +18,7 @@ class MovementsController extends Controller
         //
     }
     public function selectBatch(){
-        $batches = Batch::with('product')->get();
+        $batches = Batch::with('product')->latest()->get();
 
         // Group batches berdasarkan production_date - expired
         $groupedBatches = $batches->groupBy(function($batch) {

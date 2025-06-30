@@ -25,19 +25,19 @@ class Batch extends Model
             return $query;
         }
 
-        $keywords = explode(' ', $term);
+        $keywords = explode(' ', strtolower($term));
 
         return $query->where(function ($q) use ($keywords) {
             foreach ($keywords as $word) {
-                $q->orWhere('batch_code', 'LIKE', "%$word%")
+                $q->orWhereRaw('LOWER(batch_code) LIKE ?', ["%{$word}%"])
                     ->orWhereHas('product', function ($q2) use ($word) {
-                        $q2->where('name', 'LIKE', "%$word%");
+                        $q2->whereRaw('LOWER(name) LIKE ?', ["%{$word}%"]);
                     })
                     ->orWhereHas('movements', function ($q3) use ($word) {
-                        $q3->where('type', 'LIKE', "%$word%");
+                        $q3->whereRaw('LOWER(type) LIKE ?', ["%{$word}%"]);
                     })
-                    ->orWhereDate('prdouction_date', 'LIKE', "%$word%")
-                    ->orWhereDate('expired', 'LIKE', "%$word%")
+                    ->orWhereRaw('DATE_FORMAT(production_date, "%d-%m-%Y") LIKE ?', ["%{$word}%"])
+                    ->orWhereRaw('DATE_FORMAT(expired, "%d-%m-%Y") LIKE ?', ["%{$word}%"])
                     ->orWhereYear('created_at', $word)
                     ->orWhereMonth('created_at', $word);
             }

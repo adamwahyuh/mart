@@ -11,7 +11,7 @@
                   type="text" 
                   id="productSearch" 
                   class="form-control"
-                  placeholder="Cari batch..."
+                  placeholder="Cari batch... Nama Product... Tahun..."
                >
                <button class="btn" type="button" id="clearSearch">
                   <i class="bi bi-x-circle"></i>

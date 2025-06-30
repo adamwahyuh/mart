@@ -38,13 +38,13 @@
 
                     {{-- Production Date --}}
                     <div class="col-md-6">
-                        <label for="prdouction_date" class="form-label">Production Date</label>
+                        <label for="production_date" class="form-label">Production Date</label>
                         <input type="date" 
-                            name="prdouction_date" 
-                            id="prdouction_date" 
-                            class="form-control @error('prdouction_date') is-invalid @enderror"
-                            value="{{ old('prdouction_date', $batch->prdouction_date) }}">
-                        @error('prdouction_date')
+                            name="production_date" 
+                            id="production_date" 
+                            class="form-control @error('production_date') is-invalid @enderror"
+                            value="{{ old('production_date', $batch->production_date) }}">
+                        @error('production_date')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
