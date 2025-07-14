@@ -70,7 +70,12 @@
         </button>
         <div class="collapse" id="movements-menu">
             <a href="/movements/select-batch" class="nav-link ms-3 {{ request()->is('movements/select-batch') ? 'active' : '' }}">
-                <i class="bi bi-plus-square me-2"></i> Isi/Ambil Products
+                <i class="bi bi-plus-square me-2"></i> Isi/Ambil
+            </a>
+        </div>
+        <div class="collapse" id="movements-menu">
+            <a href="/movements" class="nav-link ms-3 {{ request()->is('movements') ? 'active' : '' }}">
+                <i class="bi bi-clock-history me-2"></i> Riwayat
             </a>
         </div>
     </div>

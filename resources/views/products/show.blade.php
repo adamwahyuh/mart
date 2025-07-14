@@ -47,7 +47,9 @@
                              alt="Foto Produk"
                              class="product-photo">
                     @else
-                        <div class="text-muted">Tidak ada foto</div>
+                        <img src="{{ asset('img/default.png') }}"
+                             alt="Foto Produk"
+                             class="product-photo">
                     @endif
                 </div>
 

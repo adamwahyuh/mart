@@ -4,13 +4,13 @@
     <div class="container-fluid mt-4">
         <div class="card shadow-sm p-4 rounded-4" style="background-color: var(--background-white);">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="text-primary mb-0">{{ $title }}</h4>
+                <h4 class="text-primary mb-0">Riwayat : {{ $title }}</h4>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('movements.index') }}" class="btn btn-success">
-                        <i class="bi bi-eye me-1"></i> Lihat Riwayat Movements
+                    <a href="{{ route('batches.index') }}" class="btn btn-success">
+                        <i class="bi bi-eye me-1"></i> Lihat Daftar Batch
                     </a>
-                    <a href="{{ route('batches.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle me-1"></i> Tambah Batch
+                    <a href="{{ route('movements.select-batch') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1"></i> Tambah Movement
                     </a>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         name="search" 
                         value="{{ request('search') }}" 
                         class="form-control" 
-                        placeholder="Cari produk, tipe movement, bulan, tahun...">
+                        placeholder="Cari batch code, vendor, operator...">
                 </div>
                 <div class="col-auto">
                     <button class="btn btn-primary">
@@ -47,60 +47,43 @@
                         <tr>
                             <th>No</th>
                             <th>Batch Code</th>
-                            <th>Nama Produk</th>
-                            <th>Stock</th>
-                            <th>Production Date</th>
-                            <th>Expired</th>
+                            <th>Type</th>
+                            <th>Qty</th>
+                            <th>Note</th>
                             <th>Vendor</th>
+                            <th>Operator</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($batches as $index => $batch)
+                        @forelse ($movements as $index => $movement)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $batch->batch_code }}</td>
-                                <td>{{ $batch->product->name ?? '-' }}</td>
-                                <td>{{ $batch->stock }}</td>
-                                <td>{{ $batch->production_date ? \Carbon\Carbon::parse($batch->production_date)->format('d-m-Y') : '-' }}</td>
-                                <td>{{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }}</td>
+                                <td>{{ $movement->batch->batch_code ?? '-' }}</td>
                                 <td>
-                                    @forelse ($batch->movements as $movement)
-                                        {{ $movement->vendor->name ?? '-' }}<br>
-                                    @empty
-                                        <span class="text-muted">-</span>
-                                    @endforelse
+                                    @if ($movement->type == 'in')
+                                        <span class="badge bg-success">In</span>
+                                    @else
+                                        <span class="badge bg-danger">Out</span>
+                                    @endif
                                 </td>
+                                <td>{{ $movement->quantity }}</td>
+                                <td>{{ $movement->note ?? '-' }}</td>
+                                <td>{{ $movement->vendor->name ?? '-' }}</td>
+                                <td>{{ $movement->operator_name }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('batches.show', $batch->id) }}" 
+                                        <a href="{{ route('batches.show', $movement->batch->id) }}" 
                                         class="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center" 
                                         title="Lihat">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="{{ route('batches.edit', $batch->id) }}" 
-                                        class="btn btn-sm btn-outline-warning d-flex align-items-center justify-content-center" 
-                                        title="Edit">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <form action="{{ route('batches.destroy', $batch->id) }}" 
-                                            method="POST" 
-                                            onsubmit="return confirm('Yakin ingin menghapus batch ini?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button 
-                                                type="submit" 
-                                                class="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center" 
-                                                title="Hapus">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted">Tidak ada batch ditemukan.</td>
+                                <td colspan="8" class="text-center text-muted">Tidak ada movement ditemukan.</td>
                             </tr>
                         @endforelse
                     </tbody>

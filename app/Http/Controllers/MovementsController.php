@@ -6,6 +6,7 @@ use App\Models\Batch;
 use App\Models\Vendor;
 use App\Models\Movement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MovementsController extends Controller
@@ -13,10 +14,31 @@ class MovementsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        $query = Movement::query()->with(['batch', 'vendor']);
+
+        if ($search = $request->search) {
+            $query->whereHas('batch', function ($q) use ($search) {
+                $q->where('batch_code', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('vendor', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhere('operator_name', 'like', '%' . $search . '%')
+            ->orWhere('note', 'like', '%' . $search . '%');
+        }
+
+        $movements = $query->latest()->get();
+
+        return view('stocks.index', [
+            'title' => 'Data Movement',
+            'movements' => $movements,
+        ]);
     }
+
+
     public function selectBatch(){
         $batches = Batch::with('product')->latest()->get();
 
@@ -60,7 +82,7 @@ class MovementsController extends Controller
             'vendor_id' => 'nullable|integer',
             'type'      => 'required|in:in,out',
             'quantity'  => 'required|integer|min:1',
-            'note'      => 'nullable|string',
+            'note'      => 'nullable|string|max:50',
             'batch_id'  => 'required|exists:batches,id',
             'product_id' => 'required|exists:products,id',
         ]);
@@ -95,7 +117,7 @@ class MovementsController extends Controller
         ]);
 
         return redirect()
-            ->route('batches.index')
+            ->route('movements.index')
             ->with('success', 'Movement berhasil disimpan ke Batch: ' . $batch->batch_code);
 
     }
@@ -114,6 +136,7 @@ class MovementsController extends Controller
     public function edit(string $id)
     {
         //
+        
     }
 
     /**
@@ -121,7 +144,7 @@ class MovementsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
@@ -130,5 +153,6 @@ class MovementsController extends Controller
     public function destroy(string $id)
     {
         //
+        abort(403, 'You CANT!');
     }
 }

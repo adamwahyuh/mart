@@ -27,7 +27,7 @@
             <div class="row mb-4">
                 <div class="col-md-6">
                     <div class="mb-2"><strong>Batch Code:</strong> {{ $batch->batch_code }}</div>
-                    <div class="mb-2"><strong>Produk:</strong> {{ $batch->product->name ?? '-' }}</div>
+                    <div class="mb-2"><strong>Produk:</strong> <a href="/products/{{ $batch->product->id }}"> {{ $batch->product->name ?? '-' }}</a></div>
                     <div class="mb-2"><strong>Stock Saat Ini:</strong> {{ $batch->stock }}</div>
                     <div class="mb-2"><strong>Production Date:</strong> 
                         {{ $batch->production_date ? \Carbon\Carbon::parse($batch->production_date)->format('d-m-Y') : '-' }}

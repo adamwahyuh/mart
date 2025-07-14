@@ -61,7 +61,8 @@
                                         <p class="text-muted mb-1">{{ $batch->product->name }}</p>
                                         <p class="mb-0 text-center">
                                             Prod: {{ $batch->production_date ? \Carbon\Carbon::parse($batch->production_date)->format('d-m-Y') : '-' }}<br>
-                                            Exp: {{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }}
+                                            Exp: {{ $batch->expired ? \Carbon\Carbon::parse($batch->expired)->format('d-m-Y') : '-' }} <br>
+                                            Stock: <strong class="text-primary">{{ $batch->stock }}</strong>
                                         </p>
                                     </div>
                                 </div>

@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/batches', BatchesController::class);
     
     Route::get('/movements/select-batch', [MovementsController::class, 'selectBatch'])->name('movements.select-batch');
-    Route::resource('/movements', MovementsController::class);
+    Route::resource('/movements', MovementsController::class)->except('destroy', 'update', 'edit');
 
     // Test dos
     Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
