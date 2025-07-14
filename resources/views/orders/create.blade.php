@@ -59,70 +59,73 @@
             {{-- RIGHT: CART --}}
             <div class="col-md-5">
                 <div class="card">
-                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                        <span class="fw-bold">Place order</span>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownPayment" data-bs-toggle="dropdown" aria-expanded="false">
-                                Cash
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownPayment">
-                                <li><a class="dropdown-item" href="#">Cash</a></li>
-                                <li><a class="dropdown-item" href="#">QRIS</a></li>
-                                <li><a class="dropdown-item" href="#">Debit</a></li>
-                            </ul>
+                    <form action="{{ route('orders.placeOrder') }}" method="POST">
+                        @csrf
+
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <span class="fw-bold">Place order</span>
+
+                            <div class="ms-auto" style="width: 150px;">
+                                <select name="payment" class="form-select form-select-sm">
+                                    <option value="tunai" selected>Tunai</option>
+                                    <option value="qris">QRIS</option>
+                                    <option value="debit">Debit</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body p-0">
-                        @if ($cartItems->count())
-                            @foreach ($cartItems as $item)
-                                <div class="d-flex align-items-center border-bottom p-2">
-                                    <img src="{{ $item->product->photo 
-                                            ? asset('storage/' . $item->product->photo) 
-                                            : asset('img/default.png') }}" 
-                                        class="me-2 rounded" 
-                                        style="width: 50px; height: 50px; object-fit: cover;">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold">{{ $item->product->name }}</div>
-                                        <div class="input-group input-group-sm mt-1" style="max-width: 120px;">
-                                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="decreaseQty(this)">-</button>
-                                            <input type="number" class="form-control form-control-sm text-center" value="{{ $item->qty }}" min="1" readonly>
-                                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="increaseQty(this)">+</button>
+
+                        <div class="card-body p-0">
+                            @if ($cartItems->count())
+                                @foreach ($cartItems as $item)
+                                    <div class="d-flex align-items-center border-bottom p-2">
+                                        <img src="{{ $item->product->photo 
+                                                ? asset('storage/' . $item->product->photo) 
+                                                : asset('img/default.png') }}" 
+                                            class="me-2 rounded" 
+                                            style="width: 50px; height: 50px; object-fit: cover;">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold">{{ $item->product->name }}</div>
+                                            <div class="input-group input-group-sm mt-1" style="max-width: 120px;">
+                                                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="decreaseQty(this)">-</button>
+                                                <input type="number" class="form-control form-control-sm text-center" value="{{ $item->qty }}" min="1" readonly>
+                                                <button class="btn btn-outline-secondary btn-sm" type="button" onclick="increaseQty(this)">+</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="text-end me-3 text-primary fw-bold">
-                                        Rp{{ number_format($item->subtotal, 0, ',', '.') }}
-                                    </div>
-                                    <form action="{{ route('orders.removeCartItem', $item->id) }}" method="POST" class="ms-2">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">
+                                        <div class="text-end me-3 text-primary fw-bold">
+                                            Rp{{ number_format($item->subtotal, 0, ',', '.') }}
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-danger ms-2" onclick="submitDeleteForm({{ $item->id }})">
                                             <i class="bi bi-trash"></i>
                                         </button>
-                                    </form>
-                                </div>
-                            @endforeach
-                        @else
-                            <p class="text-center py-3 text-muted">Keranjang kosong.</p>
-                        @endif
-                    </div>
-                    @if ($cartItems->count())
-                        <div class="card-footer bg-light d-flex justify-content-between align-items-center">
-                            <span class="fw-bold">Total</span>
-                            <span class="fw-bold text-primary">Rp{{ number_format($cart->total, 0, ',', '.') }}</span>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p class="text-center py-3 text-muted">Keranjang kosong.</p>
+                            @endif
                         </div>
-                        <div class="p-3">
-                            <form action="{{ route('orders.placeOrder') }}" method="POST">
-                                @csrf
+
+                        @if ($cartItems->count())
+                            <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                                <span class="fw-bold">Total</span>
+                                <span class="fw-bold text-primary">Rp{{ number_format($cart->total, 0, ',', '.') }}</span>
+                            </div>
+                            <div class="p-3">
                                 <button type="submit" class="btn btn-primary w-100">
                                     Place order
                                 </button>
-                            </form>
-                        </div>
-                    @endif
+                            </div>
+                        @endif
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    {{-- FORM DELETE TERSENDIRI --}}
+    <form id="deleteForm" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
 
     <script>
         function decreaseQty(btn) {
@@ -135,6 +138,12 @@
         function increaseQty(btn) {
             let input = btn.parentElement.querySelector('input');
             input.value = parseInt(input.value) + 1;
+        }
+
+        function submitDeleteForm(itemId) {
+            const form = document.getElementById('deleteForm');
+            form.action = `/orders/cart-item/${itemId}`;
+            form.submit();
         }
     </script>
 </x-layout>

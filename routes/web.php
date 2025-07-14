@@ -9,6 +9,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\BatchesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\MovementsController;
 
@@ -19,9 +20,7 @@ Route::middleware('guest')->group(function () {
 
 // Rute yang membutuhkan login
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard.index');
-    });
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::resource('/products', ProductController::class);
 
@@ -54,8 +53,8 @@ Route::middleware('auth')->group(function () {
         Route::get('cart', [OrderController::class, 'getCart'])->name('orders.getCart');
     });
 
-    Route::resource('/orders', OrderController::class)->only(['index', 'show', 'destroy'])->middleware('auth');
+    Route::resource('/orders', OrderController::class)->only(['index', 'show', 'destroy']);
+    // Only edit status 
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])
-    ->name('orders.updateStatus')
-    ->middleware('auth');
+    ->name('orders.updateStatus');
 });

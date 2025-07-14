@@ -107,7 +107,11 @@ class OrderController extends Controller
 
     public function placeOrder(Request $request)
     {
-        DB::transaction(function () {
+        $request->validate([
+            'payment' => 'required|in:tunai,qris,debit',
+        ]);
+
+        DB::transaction(function () use ($request) {
             $cart = Cart::where('user_id', Auth::id())->firstOrFail();
             $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
@@ -118,7 +122,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'user_id' => Auth::id(),
                 'operator_name' => Auth::user()->name,
-                'payment' => 'tunai', // sementara default, bisa diganti pakai $request
+                'payment' => $request->payment, 
                 'status' => 'process',
                 'total' => $cart->total,
             ]);

@@ -2,7 +2,7 @@
      style="height: 100vh; width: 250px; background-color: var(--sidebar-bg); color: var(--sidebar-text); box-shadow: var(--box-shadow-light); overflow-y: auto;">
      
     {{-- Brand / Header --}}
-    <a href="/" class="nav-link {{ request()->is('/') ? 'active' : '' }} d-flex align-items-center mb-3 fw-bold">
+    <a href="{{ route('dashboard.index') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }} d-flex align-items-center mb-3 fw-bold">
         <i class="bi bi-house-door-fill me-2"></i> Dashboard
     </a>
 
@@ -14,11 +14,11 @@
             <i class="bi bi-bag-fill me-2"></i> Cashier
         </button>
         <div class="collapse" id="cashier-menu">
-            <a href="{{ route('orders.create') }}" class="nav-link ms-3 {{ request()->is('orders/create') ? 'active' : '' }}">
-                <i class="bi bi-pencil-square me-2"></i> Buat Order
-            </a>
             <a href="{{ route('orders.index') }}" class="nav-link ms-3 {{ request()->is('orders') ? 'active' : '' }}">
                 <i class="bi bi-receipt me-2"></i> Lihat Order
+            </a>
+            <a href="{{ route('orders.create') }}" class="nav-link ms-3 {{ request()->is('orders/create') ? 'active' : '' }}">
+                <i class="bi bi-pencil-square me-2"></i> Buat Order
             </a>
         </div>
     </div>
