@@ -4,6 +4,7 @@ use App\Models\Movement;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DosController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\BatchesController;
 use App\Http\Controllers\ProductController;
@@ -43,4 +44,18 @@ Route::middleware('auth')->group(function () {
     // Test dos
     Route::get('/dos', [DosController::class, 'index'])->name('dos.index');
     Route::delete('/dos', [DosController::class, 'destroyAll'])->name('dos.destroyAll');
+
+    // Kasir (Orders)
+    Route::prefix('orders')->middleware('auth')->group(function () {
+        Route::get('create', [OrderController::class, 'create'])->name('orders.create');
+        Route::post('add-to-cart/{product}', [OrderController::class, 'addToCart'])->name('orders.addToCart');
+        Route::delete('cart-item/{id}', [OrderController::class, 'removeCartItem'])->name('orders.removeCartItem');
+        Route::post('place-order', [OrderController::class, 'placeOrder'])->name('orders.placeOrder');
+        Route::get('cart', [OrderController::class, 'getCart'])->name('orders.getCart');
+    });
+
+    Route::resource('/orders', OrderController::class)->only(['index', 'show', 'destroy'])->middleware('auth');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])
+    ->name('orders.updateStatus')
+    ->middleware('auth');
 });

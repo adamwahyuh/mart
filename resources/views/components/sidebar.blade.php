@@ -14,14 +14,11 @@
             <i class="bi bi-bag-fill me-2"></i> Cashier
         </button>
         <div class="collapse" id="cashier-menu">
-            <a href="#" class="nav-link ms-3 {{ request()->is('order/create') ? 'active' : '' }}">
+            <a href="{{ route('orders.create') }}" class="nav-link ms-3 {{ request()->is('orders/create') ? 'active' : '' }}">
                 <i class="bi bi-pencil-square me-2"></i> Buat Order
             </a>
-            <a href="#" class="nav-link ms-3 {{ request()->is('order') ? 'active' : '' }}">
+            <a href="{{ route('orders.index') }}" class="nav-link ms-3 {{ request()->is('orders') ? 'active' : '' }}">
                 <i class="bi bi-receipt me-2"></i> Lihat Order
-            </a>
-            <a href="#" class="nav-link ms-3">
-                <i class="bi bi-qr-code-scan me-2"></i> Lihat Qris
             </a>
         </div>
     </div>
@@ -50,7 +47,7 @@
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
                 data-bs-toggle="collapse" data-bs-target="#restocker-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
-            <i class="bi bi-box-seam me-2"></i> Batches
+            <i class="bi bi-collection me-2"></i> Batches
         </button>
         <div class="collapse" id="restocker-menu">
             <a href="/batches" class="nav-link ms-3 {{ request()->is('batches') ? 'active' : '' }}">
@@ -66,7 +63,7 @@
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
                 data-bs-toggle="collapse" data-bs-target="#movements-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
-            <i class="bi bi-box-seam me-2"></i> Movements
+            <i class="bi bi-car-front-fill me-2"></i> Movements
         </button>
         <div class="collapse" id="movements-menu">
             <a href="/movements/select-batch" class="nav-link ms-3 {{ request()->is('movements/select-batch') ? 'active' : '' }}">
@@ -97,7 +94,7 @@
         </div>
     </div>
 
-    {{-- OWNER --}}
+    {{-- OWNER
     <div class="mb-2">
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
                 data-bs-toggle="collapse" data-bs-target="#owner-menu" aria-expanded="false" 
@@ -113,9 +110,9 @@
             </a>
         </div>
     </div>
-
+    --}}
     {{-- ADMIN --}}
-    <div class="mb-2">
+    {{-- <div class="mb-2">
         <button class="btn btn-toggle align-items-center rounded collapsed w-100 text-start px-2" 
                 data-bs-toggle="collapse" data-bs-target="#admin-menu" aria-expanded="false" 
                 style="color: var(--sidebar-text);">
@@ -129,7 +126,7 @@
                 <i class="bi bi-shield-lock me-2"></i> Role & Permission
             </a>
         </div>
-    </div>
+    </div> --}}
 
     {{-- Footer --}}
     <div class="sidebar-footer mt-3 pt-3 border-top" style="border-color: var(--border-color);">
