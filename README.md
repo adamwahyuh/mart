@@ -43,6 +43,10 @@ php artisan key:generate
 ```
 php artisan migrate:fresh --seed
 ```
+### Link pengaturan file systemnya ke public
+```
+php artisan storage:link
+```
 ### Jalankan Server dengan artisan
 ```
 php artisan serve
