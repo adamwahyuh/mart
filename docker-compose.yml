@@ -1,6 +1,18 @@
 version: "3.8"
 
 services:
+  mysql-dev:
+    image: mysql:8.3
+    container_name: mysql-dev
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mart
+    ports:
+      - "3306:3306"
+    networks:
+      - ninteenmart
+
   app:
     build:
       context: .
@@ -10,9 +22,16 @@ services:
     volumes:
       - .:/var/www
     networks:
-      - laravel
+      - ninteenmart
     expose:
       - 9000
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: mysql-dev
+      DB_PORT: 3306
+      DB_DATABASE: mart
+      DB_USERNAME: root
+      DB_PASSWORD: root
 
   nginx:
     image: nginx:alpine
@@ -26,7 +45,7 @@ services:
     depends_on:
       - app
     networks:
-      - laravel
+      - ninteenmart
 
 networks:
-  laravel:
+  ninteenmart:
