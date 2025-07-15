@@ -56,4 +56,14 @@ php artisan serve
 http://127.0.0.1:8000
 ```
 ---
+### Untuk Login Defaultnya
+```
+username : adam
+password : pass
+```
+atau
+```
+username : nathan
+password : pass
+```
 # Terimakasih
