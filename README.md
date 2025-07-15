@@ -24,7 +24,7 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=mart
 DB_USERNAME=root
-DB_PASSWORD=
+DB_PASSWORD=root
 ```
 ### Install Semua Depedenciesnya, jalankan 2 command berikut:
 - npm
