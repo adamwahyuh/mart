@@ -3,6 +3,7 @@ Project ini adalah Program Kasir dan Inventori sederhana yang dibuat untuk menun
 
 ## Tata cara menginstall
 ### 1. Pastikan sudah install PHP, Composer, Nodejs
+# Buka Terminal
 ### 2. Clone Repositorinya dan Masuk kedalam Directory-nya
 ```
 git clone https://github.com/adamwahyuh/mart
