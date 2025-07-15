@@ -57,4 +57,5 @@ Route::middleware('auth')->group(function () {
     // Only edit status 
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])
     ->name('orders.updateStatus');
+    
 });
